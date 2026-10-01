@@ -25,20 +25,12 @@ export default function ProfileForm({ userId }: { userId: string }) {
             .select();
 
         if (error) {
-            setMessage(error.message);
+            setMessage("Unable to update profile.");
             return;
         }
 
         if (!data || data.length === 0) {
             setMessage("Profile was not updated.");
-            return;
-        }
-
-        setMessage("Profile saved!");
-        router.refresh();
-
-        if (error) {
-            setMessage(error.message);
             return;
         }
 
@@ -55,6 +47,7 @@ export default function ProfileForm({ userId }: { userId: string }) {
                 <div>
                     <label htmlFor="firstName">First name</label>
                     <br />
+
                     <input
                         id="firstName"
                         type="text"
@@ -67,6 +60,7 @@ export default function ProfileForm({ userId }: { userId: string }) {
                 <div>
                     <label htmlFor="lastName">Last name</label>
                     <br />
+
                     <input
                         id="lastName"
                         type="text"
