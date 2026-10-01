@@ -72,18 +72,18 @@ export default async function Home() {
                             <SignOutButton />
                         </>
                     )}
+
+                    <h2>My Movie List</h2>
+
+                    <ul>
+                        {movies?.map((movie) => (
+                            <li key={movie.id}>
+                                {movie.title} ({movie.year})
+                            </li>
+                        ))}
+                    </ul>
                 </>
             )}
-
-            <h2>My Movie List</h2>
-
-            <ul>
-                {movies?.map((movie) => (
-                    <li key={movie.id}>
-                        {movie.title} ({movie.year})
-                    </li>
-                ))}
-            </ul>
         </main>
     );
 }
