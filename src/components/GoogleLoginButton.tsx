@@ -1,37 +1,15 @@
-"use client";
-
-import { createClient } from "@/lib/supabase/client";
-
+'use client';
+import { useState } from 'react';
+import { createClient } from '@/lib/supabase/client';
 export default function GoogleLoginButton() {
-    const handleLogin = async () => {
-        const supabase = createClient();
-
-        const { error } = await supabase.auth.signInWithOAuth({
-            provider: "google",
-            options: {
-                redirectTo: `${window.location.origin}/auth/callback`,
-                queryParams: {
-                    prompt: "select_account",
-                },
-            },
-        });
-
-        if (error) {
-            console.error("Error signing in:", error.message);
-        }
-    };
-
-    return (
-        <button
-            onClick={handleLogin}
-            style={{
-                padding: "10px 16px",
-                border: "1px solid #ccc",
-                borderRadius: "6px",
-                cursor: "pointer",
-            }}
-        >
-            Sign in with Google
-        </button>
-    );
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  async function login() {
+    setBusy(true); setError('');
+    try {
+      const { error } = await createClient().auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${window.location.origin}/auth/callback`, queryParams: { prompt: 'select_account' } } });
+      if (error) throw error;
+    } catch { setError('Sign-in could not start. Please try again.'); setBusy(false); }
+  }
+  return <div><button className="button" onClick={login} disabled={busy}>{busy ? 'Connecting…' : 'Sign in with Google'}</button>{error && <p className="error" role="alert">{error}</p>}</div>;
 }
